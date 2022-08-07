@@ -3,6 +3,8 @@ const user1 = require('../models/user');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+const JWT_SESSION = "anshikaagrawal2@";
 
 //Create a user using POST : /api/auth/createUser : It is use to create a user
 //api uri,validations, sending request
@@ -37,7 +39,16 @@ router.post('/createUser',[
             email: req.body.email
         })
         //coming in response
-        res.json(user);
+        //we create a token using jwt authentication and return token to user
+        //we sign using unique id 
+        const data = {
+                user : {
+                    id : user.id
+                }
+        }
+
+        var authToken = jwt.sign(data, JWT_SESSION);
+        res.json(authToken);
     }
     catch(error)
     {
