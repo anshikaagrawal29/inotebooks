@@ -2,9 +2,11 @@ const express = require('express');
 const user1 = require('../models/user');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
+var bcrypt = require('bcryptjs');
 
 //Create a user using POST : /api/auth/createUser : It is use to create a user
 //api uri,validations, sending request
+//Adding bcrypt js to add hashing into password
 router.post('/createUser',[
     body('name','Enter a valid name of minimum length : 3').isLength({ min: 3 }),
     body('email', 'Enter a valid email address').isEmail(),
@@ -18,6 +20,9 @@ router.post('/createUser',[
     }
     try
     {
+        //creating hashed password using bcrypt 
+        const salt = await bcrypt.genSalt(10);
+        const secPass = await bcrypt.hash(req.body.password,salt);
         //Checking in db using findone that email with this email passed in body exists or not
         let user = await user1.findOne({email: req.body.email});
         //if exist return error
@@ -28,7 +33,7 @@ router.post('/createUser',[
             //else create a user in db
             user = await user1.create({
             name: req.body.name,
-            password: req.body.password,
+            password: secPass,
             email: req.body.email
         })
         //coming in response
