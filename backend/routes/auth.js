@@ -54,9 +54,53 @@ router.post('/createUser',[
     {
         console.log(error.message);
         res.status(500).json({error : 'Internal Server Error'});
+    }  
+})
+
+//Login a user using POST : /api/auth/loin : It is use to login a user
+router.post('/login',[
+    body('email', 'Enter a valid email address').isEmail(),
+    body('password','Password cannot be blank').exists()
+], async (req, res) => {
+
+    //doing validation as mentioned above on the req for email and password
+    const errors = validationResult(req);
+    //if error comes from validation then send error and fail request
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-    
-    
+    try{
+
+        const {email, password} = req.body;
+        let user = await user1.findOne({email});
+        if(!user)
+        {
+            return res.status(400).json({error : 'Credentials are incorrect. Please try again.'});
+        }
+        
+        //first argument, it will apply hashing and saliting on password enter by user and 
+        //compare with the fetched password
+        let passwordCompare = await bcrypt.compare(password,user.password);
+        if(!passwordCompare)
+        {
+            return res.status(400).json({error : 'Credentials are incorrect. Please try again.'});
+        }
+        
+        //we create a token using jwt authentication and return token to user on successfull Login
+        const data = {
+            user : {
+                id : user.id
+            }
+        }
+
+    var authToken = jwt.sign(data, JWT_SESSION);
+    res.json(authToken);
+    }
+    catch(error)
+    {
+        console.log(error.message);
+        res.status(500).json({error : 'Internal Server Error'});
+    }
 })
 
 module.exports = router
