@@ -6,6 +6,7 @@ var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const JWT_SESSION = "anshikaagrawal2@";
 
+//ROUTE 1 : Create User
 //Create a user using POST : /api/auth/createUser : It is use to create a user
 //api uri,validations, sending request
 //Adding bcrypt js to add hashing into password
@@ -57,7 +58,8 @@ router.post('/createUser',[
     }  
 })
 
-//Login a user using POST : /api/auth/loin : It is use to login a user
+//ROUTE 2 : Login
+//Login a user using POST : /api/auth/login : It is use to login a user
 router.post('/login',[
     body('email', 'Enter a valid email address').isEmail(),
     body('password','Password cannot be blank').exists()
@@ -95,6 +97,21 @@ router.post('/login',[
 
     var authToken = jwt.sign(data, JWT_SESSION);
     res.json(authToken);
+    }
+    catch(error)
+    {
+        console.log(error.message);
+        res.status(500).json({error : 'Internal Server Error'});
+    }
+})
+
+//ROTE 3: get user details
+router.post('/login', async (req, res) => {
+    try
+    {
+        // so we are getting all fields using select except password
+        const userDetails = user1.findById(userId).select("-password");
+
     }
     catch(error)
     {
