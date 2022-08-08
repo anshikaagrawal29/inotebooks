@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const JWT_SESSION = "anshikaagrawal2@";
+var fetchuser = require('../middleware/fetchuser');
 
 //ROUTE 1 : Create User
 //Create a user using POST : /api/auth/createUser : It is use to create a user
@@ -106,12 +107,15 @@ router.post('/login',[
 })
 
 //ROTE 3: get user details
-router.post('/login', async (req, res) => {
+//Get a user using POST : /api/auth/getuser : It is use to get user details of user
+//fetch user middleware will run and then this function will run
+router.post('/getuser',fetchuser, async (req, res) => {
     try
     {
         // so we are getting all fields using select except password
-        const userDetails = user1.findById(userId).select("-password");
-
+        userId = req.user.id;
+        const userDetails = await user1.findById(userId).select("-password");
+        res.send(userDetails);
     }
     catch(error)
     {
