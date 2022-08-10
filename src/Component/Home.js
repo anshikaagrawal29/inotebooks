@@ -1,9 +1,11 @@
 import React, {useContext} from 'react'
 import noteContext from '../context/notes/noteContext'
+import NoteItems from './NoteItems';
 
 const Home = () => {
   const context = useContext(noteContext);
   //destructing, notes and setnotes are getting passed from NoteState.js
+  // eslint-disable-next-line
   const{notes, setNotes} = context;
   return (
     <div>
@@ -30,7 +32,7 @@ const Home = () => {
         <h2>Your Notes</h2>
         {
           notes.map( (note) => {
-              return note.title;
+            return <NoteItems key={note._id} title = {note.title} description = {note.description} />
           })
         }
       </div>
