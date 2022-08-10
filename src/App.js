@@ -9,6 +9,7 @@ import {
 import Home from "./Component/Home";
 import About from "./Component/About";
 import NoteState from "./context/notes/NoteState";
+import Alert from "./Component/Alert";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
   <NoteState>
       <Router>
       <Navbar/>
+      <Alert/>
         <div className="container">
         <Routes >
               <Route exact path="/" element={<Home/>}> </Route>
