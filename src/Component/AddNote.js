@@ -31,7 +31,7 @@ const AddNote = () => {
             <label htmlFor="description" className="form-label">Description</label>
             <input type="text" className="form-control" id="description" name="description" onChange={onChange} aria-describedby="emailHelp"/>
             </div>
-            <button type="submit" className="btn btn-primary" onClick={HandleOnClick}>Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={HandleOnClick}>Add Note</button>
         </form>
     </div>
   )
