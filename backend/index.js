@@ -1,10 +1,13 @@
 const connectToMongo = require('./db');
 const express = require('express')
+var cors = require('cors')
 connectToMongo();
 
 const app = express()
 const port = 5000
 
+ 
+app.use(cors())
 //this line will allow us to send body in request
 app.use(express.json())
 //Available routes
@@ -16,4 +19,4 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)})
+  console.log(`Listening at http://localhost:${port}`)})
