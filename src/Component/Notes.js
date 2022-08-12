@@ -7,13 +7,13 @@ const Notes = (props) => {
     const context = useContext(noteContext);
   //destructing, notes and setnotes are getting passed from NoteState.js
   // eslint-disable-next-line
-  const{notes,fetchAllNotes} = context;
+  const{notes,editNote,fetchAllNotes} = context;
   useEffect(() => {
     fetchAllNotes()
   },[]);
 
   const ref = useRef(null)
-  const refclose = useRef(null)
+  const refClose = useRef(null)
   //creating a new state
   const[note, setNote] = useState({"id" : "" , "etitle" : "", "edescription" :"", "etag" : ""})
 
@@ -22,11 +22,9 @@ const Notes = (props) => {
       setNote({id : currentNote._id, etitle : currentNote.title , edescription : currentNote.description, etag : currentNote.tag});
   }
 
-  
-
   const HandleOnClick = (e) => {
-    console.log("updating the note", note)
-    refclose.current.click();
+    editNote(note.id, note.etitle, note.edescription, note.etag);
+    refClose.current.click();
   }
 
   //Spread function : where on change of anything we are making key value pair and setting it into state variable

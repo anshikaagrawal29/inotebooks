@@ -43,17 +43,42 @@ const NoteState = (props) =>
       }
 
       //Edit Note
-      const editNote = () =>
+      const editNote = async (id,title,description, tag) =>
       {
+          const url = `${host}/api/notes/updatenote/${id}`;
+          const updateNotesResponse = await fetch(url, {
+            method : 'PUT',
+            headers : {
+              'Content-Type' : 'application/json',
+              "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmMGM1NDU2NTAwN2NiMmYyZGJjN2JiIn0sImlhdCI6MTY1OTk0NjMzMX0.LgXNcHxvgqibZwWRGW_-yWsnvSq1XCBtjT2ToZtX9Mo"
+            },
+            body : JSON.stringify({title, description, tag})
+          });
 
+          const resJson = await updateNotesResponse.json();
+
+          //To see updates directly on screen we need this function
+          //now we have to create new notes again because we cannot directly updated the notes, so 
+          //we are parsing it and creating a new note
+          let newNotes = JSON.parse(JSON.stringify(notes));
+          for(let i =0; i <newNotes.length; i++)
+          {
+            const elemId = newNotes[i]._id;
+            if(elemId === id)
+            {
+              newNotes[i].title = title;
+              newNotes[i].description = description;
+              newNotes[i].tag = tag;
+              break;
+            }
+          }
+          setNotes(newNotes);
       }
 
       //Delete Note
       const deleteNote = async (id) =>
       {
           const url = `${host}/api/notes/deletenote/${id}`;
-          console.log(id);
-          console.log(url);
           const deleteNotes = await fetch(url, {
             method : 'DELETE',
             headers : {
