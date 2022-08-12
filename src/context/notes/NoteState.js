@@ -3,7 +3,7 @@ import NoteContext from "./noteContext";
 
 const NoteState = (props) =>
 {
-      const host = "http://localhost:5000";
+      const host = "http://localhost:5005";
       const[notes, setNotes] = useState([]);
 
       //fetch all notes
@@ -61,8 +61,7 @@ const NoteState = (props) =>
               "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmMGM1NDU2NTAwN2NiMmYyZGJjN2JiIn0sImlhdCI6MTY1OTk0NjMzMX0.LgXNcHxvgqibZwWRGW_-yWsnvSq1XCBtjT2ToZtX9Mo"
             }
           });
-          let note = await deleteNotes.json()
-          setNotes(notes);
+          console.log(deleteNotes);
       }
 
     return(
