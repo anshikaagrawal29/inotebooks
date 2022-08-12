@@ -13,18 +13,20 @@ const Notes = (props) => {
   },[]);
 
   const ref = useRef(null)
-  
+  const refclose = useRef(null)
+  //creating a new state
+  const[note, setNote] = useState({"id" : "" , "etitle" : "", "edescription" :"", "etag" : ""})
+
   const updateNote = (currentNote) =>{
       ref.current.click();
-      setNote({etitle : currentNote.title , edescription : currentNote.description, etag : currentNote.tag});
+      setNote({id : currentNote._id, etitle : currentNote.title , edescription : currentNote.description, etag : currentNote.tag});
   }
 
-  //creating a new state
-  const[note, setNote] = useState({"etitle" : "", "edescription" :"", "etag" : ""})
+  
 
   const HandleOnClick = (e) => {
-    e.preventDefault();
     console.log("updating the note", note)
+    refclose.current.click();
   }
 
   //Spread function : where on change of anything we are making key value pair and setting it into state variable
@@ -61,7 +63,7 @@ const Notes = (props) => {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" ref={refClose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" className="btn btn-primary" onClick={HandleOnClick}>Update Note</button>
             </div>
           </div>
