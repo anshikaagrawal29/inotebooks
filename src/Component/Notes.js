@@ -48,11 +48,11 @@ const Notes = (props) => {
               <form className="my-3">
                   <div className="mb-3">
                   <label htmlFor="title" className="form-label">Title</label>
-                  <input type="text" className="form-control" onChange={onChange} value={note.etitle} id="etitle" name="etitle" />
+                  <input type="text" className="form-control" onChange={onChange} minLength = {5} required value={note.etitle} id="etitle" name="etitle" />
                   </div>
                   <div className="mb-3">
                   <label htmlFor="description" className="form-label">Description</label>
-                  <input type="text" className="form-control" id="edescription" value={note.edescription} name="edescription" onChange={onChange} aria-describedby="emailHelp"/>
+                  <input type="text" className="form-control" id="edescription" minLength = {5} required value={note.edescription} name="edescription" onChange={onChange} aria-describedby="emailHelp"/>
                   </div>
                   <div className="mb-3">
                   <label htmlFor="tag" className="form-label">Tag</label>
@@ -69,6 +69,9 @@ const Notes = (props) => {
       </div>
       <div className="row my-3">
           <h2>Your Notes</h2>
+          <div className='container'>
+            {notes.length === 0 && 'No records Found!!'}
+          </div>
           {
             notes.map( (note) => {
               return <NoteItems key={note._id} note ={note} updateNote = {updateNote}/>

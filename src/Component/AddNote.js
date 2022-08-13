@@ -13,6 +13,7 @@ const AddNote = () => {
   const HandleOnClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    setNote({"title" : "", "description" :"", "" : ""})
   }
 
   //Spread function : where on change of anything we are making key value pair and setting it into state variable
@@ -25,17 +26,17 @@ const AddNote = () => {
         <form className="my-3">
             <div className="mb-3">
             <label htmlFor="title" className="form-label">Title</label>
-            <input type="text" className="form-control" onChange={onChange} id="title" name="title" />
+            <input type="text" className="form-control" required onChange={onChange} value={note.title} minLength = {5} id="title" name="title" />
             </div>
             <div className="mb-3">
             <label htmlFor="description" className="form-label">Description</label>
-            <input type="text" className="form-control" id="description" name="description" onChange={onChange} aria-describedby="emailHelp"/>
+            <input type="text" className="form-control" required id="description" value={note.description} minLength = {5} name="description" onChange={onChange} aria-describedby="emailHelp"/>
             </div>
             <div className="mb-3">
             <label htmlFor="tag" className="form-label">Tag</label>
-            <input type="text" className="form-control" id="tag" name="tag" onChange={onChange} aria-describedby="emailHelp"/>
+            <input type="text" className="form-control" id="tag" name="tag" value={note.tag} onChange={onChange} aria-describedby="emailHelp"/>
             </div>
-            <button type="submit" className="btn btn-primary" onClick={HandleOnClick}>Add Note</button>
+            <button type="submit" className="btn btn-primary" disabled= {note.title.length <5 || note.description.length < 5}  onClick={HandleOnClick}>Add Note</button>
         </form>
     </div>
   )
