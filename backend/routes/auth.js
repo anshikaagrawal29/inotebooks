@@ -66,6 +66,7 @@ router.post('/login',[
     body('password','Password cannot be blank').exists()
 ], async (req, res) => {
 
+    let success = false;
     //doing validation as mentioned above on the req for email and password
     const errors = validationResult(req);
     //if error comes from validation then send error and fail request
@@ -86,7 +87,7 @@ router.post('/login',[
         let passwordCompare = await bcrypt.compare(password,user.password);
         if(!passwordCompare)
         {
-            return res.status(400).json({error : 'Credentials are incorrect. Please try again.'});
+            return res.status(400).json({success, error : 'Credentials are incorrect. Please try again.'});
         }
         
         //we create a token using jwt authentication and return token to user on successfull Login
@@ -97,12 +98,13 @@ router.post('/login',[
         }
 
     var authToken = jwt.sign(data, JWT_SESSION);
-    res.json(authToken);
+    success = true;
+    res.json({success, authToken});
     }
     catch(error)
     {
         console.log(error.message);
-        res.status(500).json({error : 'Internal Server Error'});
+        res.status(500).json({error : 'Internal Server Error Hello'});
     }
 })
 
