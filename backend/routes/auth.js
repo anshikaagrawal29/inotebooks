@@ -16,11 +16,12 @@ router.post('/createUser',[
     body('email', 'Enter a valid email address').isEmail(),
     body('password','Enter a valid password of minimum length : 5').isLength({ min: 5 })
 ], async (req, res) => {
+    let success = false;
     //doing validation as mentioned above on the req
     const errors = validationResult(req);
     //if error comes from validation then send error and fail request
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({errors: errors.array() });
     }
     try
     {
@@ -32,7 +33,7 @@ router.post('/createUser',[
         //if exist return error
         if(user)
         {
-            return res.status(400).json({error : 'User with this email address already exist'});
+            return res.status(400).json({success,error : 'User with this email address already exist'});
         }
             //else create a user in db
             user = await user1.create({
@@ -49,13 +50,15 @@ router.post('/createUser',[
                 }
         }
 
+        success = true;
+        //console.log(success);
         var authToken = jwt.sign(data, JWT_SESSION);
-        res.json(authToken);
+        res.json({success,authToken});
     }
     catch(error)
     {
-        console.log(error.message);
-        res.status(500).json({error : 'Internal Server Error'});
+        console.log(error);
+        res.status(500).json({error : 'Internal Server Error1'});
     }  
 })
 
