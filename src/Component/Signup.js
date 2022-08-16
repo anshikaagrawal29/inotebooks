@@ -28,11 +28,10 @@ const handleSubmit = async (e) => {
             body : JSON.stringify({name, email, password})
         });
         const json = await response.json();
-        console.log(json);
         if(json.success)
         {
             //storing in local storage
-            localStorage.setItem('token' , json.authtoken);
+            localStorage.setItem('token' , json.authToken);
             //redirect
             navigate('/')
 

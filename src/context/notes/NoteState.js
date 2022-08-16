@@ -13,11 +13,12 @@ const NoteState = (props) =>
           method : 'GET',
           headers : {
             'Content-Type' : 'application/json',
-            "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmMGM1NDU2NTAwN2NiMmYyZGJjN2JiIn0sImlhdCI6MTY1OTk0NjMzMX0.LgXNcHxvgqibZwWRGW_-yWsnvSq1XCBtjT2ToZtX9Mo"
+            "auth-token" : localStorage.getItem('token')
           }
         });
         let json = await response.json()
         setNotes(json)
+        
       }
 
       //Add Note
@@ -33,7 +34,7 @@ const NoteState = (props) =>
           method : 'POST',
           headers : {
             'Content-Type' : 'application/json',
-            "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmMGM1NDU2NTAwN2NiMmYyZGJjN2JiIn0sImlhdCI6MTY1OTk0NjMzMX0.LgXNcHxvgqibZwWRGW_-yWsnvSq1XCBtjT2ToZtX9Mo"
+            "auth-token" : localStorage.getItem('token')
           },
           body : data
         });
@@ -50,13 +51,13 @@ const NoteState = (props) =>
             method : 'PUT',
             headers : {
               'Content-Type' : 'application/json',
-              "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmMGM1NDU2NTAwN2NiMmYyZGJjN2JiIn0sImlhdCI6MTY1OTk0NjMzMX0.LgXNcHxvgqibZwWRGW_-yWsnvSq1XCBtjT2ToZtX9Mo"
+              "auth-token" : localStorage.getItem('token')
             },
             body : JSON.stringify({title, description, tag})
           });
 
           const resJson = await updateNotesResponse.json();
-
+          console.log(resJson)
           //To see updates directly on screen we need this function
           //now we have to create new notes again because we cannot directly updated the notes, so 
           //we are parsing it and creating a new note
@@ -83,7 +84,7 @@ const NoteState = (props) =>
             method : 'DELETE',
             headers : {
               'Content-Type' : 'application/json',
-              "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJmMGM1NDU2NTAwN2NiMmYyZGJjN2JiIn0sImlhdCI6MTY1OTk0NjMzMX0.LgXNcHxvgqibZwWRGW_-yWsnvSq1XCBtjT2ToZtX9Mo"
+              "auth-token" : localStorage.getItem('token')
             }
           });
           console.log(deleteNotes);

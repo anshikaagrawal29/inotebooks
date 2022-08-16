@@ -2,14 +2,26 @@ import React,{useContext, useEffect, useRef, useState} from 'react'
 import noteContext from '../context/notes/noteContext'
 import AddNote from './AddNote';
 import NoteItems from './NoteItems';
+import { useNavigate } from 'react-router-dom';
 
 const Notes = (props) => {
     const context = useContext(noteContext);
+    let navigate = useNavigate();
   //destructing, notes and setnotes are getting passed from NoteState.js
   // eslint-disable-next-line
   const{notes,editNote,fetchAllNotes} = context;
   useEffect(() => {
-    fetchAllNotes()
+   
+    if(localStorage.getItem('token'))
+    {
+      console.log("a")
+      fetchAllNotes()
+    }
+    else
+    {
+      navigate("/login")
+    }
+    
   },[]);
 
   const ref = useRef(null)
@@ -67,7 +79,7 @@ const Notes = (props) => {
           </div>
         </div>
       </div>
-      <div className="row my-3">
+      {localStorage.getItem('token') ? <div className="row my-3">
           <h2>Your Notes</h2>
           <div className='container'>
             {notes.length === 0 && 'No records Found!!'}
@@ -77,7 +89,7 @@ const Notes = (props) => {
               return <NoteItems key={note._id} note ={note} updateNote = {updateNote}/>
             })
           }
-        </div>
+        </div> : navigate("/login")}
       </>
   )
 }

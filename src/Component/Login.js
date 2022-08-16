@@ -25,11 +25,12 @@ const Login = () => {
                 body : JSON.stringify({email : credentials.email,password : credentials.password})
             });
             const json = await response.json();
-            console.log(json);
             if(json.success)
             {
                 //storing in local storage
-                localStorage.setItem('token' , json.authtoken);
+                let token = JSON.stringify(json);
+                let parsedToken = JSON.parse(token)
+                localStorage.setItem('token' ,parsedToken.authToken);
                 //redirect
                 navigate('/')
 
@@ -42,16 +43,16 @@ const Login = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-  <div class="mb-3">
-    <label for="email" class="form-label">Email address</label>
-    <input type="email" class="form-control" name="email" value={credentials.email} onChange ={HandleonChange} id="email" aria-describedby="emailHelp"/>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  <div className="mb-3">
+    <label htmlFor="email" className="form-label">Email address</label>
+    <input type="email" className="form-control" name="email" value={credentials.email} onChange ={HandleonChange} id="email" aria-describedby="emailHelp"/>
+    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
   </div>
-  <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <input type="password" name="password" value={credentials.password} onChange ={HandleonChange}  class="form-control" id="password"/>
+  <div className="mb-3">
+    <label htmlFor="password" className="form-label">Password</label>
+    <input type="password" name="password" value={credentials.password} onChange ={HandleonChange}  className="form-control" id="password"/>
   </div>
-  <button type="submit" class="btn btn-primary" >Submit</button>
+  <button type="submit" className="btn btn-primary" >Submit</button>
 </form>
     </div>
   )
