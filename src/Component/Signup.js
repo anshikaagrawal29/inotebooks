@@ -45,6 +45,7 @@ const handleSubmit = async (e) => {
     
     <div className="container">
         <form onSubmit={handleSubmit}>
+          <h2 className='my-2'> Create your Account</h2>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">Name</label>
             <input type="text" className="form-control" name="name" onChange={onChange} id="name" aria-describedby="emailHelp"/>
